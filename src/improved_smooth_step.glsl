@@ -10,13 +10,20 @@ float improved_smooth_step( float f)
 {
   /////////////////////////////////////////////////////////////////////////////
   // Replace with your code 
-  return f;
+  if (f < 0){ //will not go out of the boundary [0,1]
+    return 0;
+  }
+  else if (f > 1){
+    return 1;
+  }
+  else{
+  return  6 * pow(f,5) -15 * pow(f,4) + 10 *pow(f,3);} //from the slides
   /////////////////////////////////////////////////////////////////////////////
 }
 vec3 improved_smooth_step( vec3 f)
 {
   /////////////////////////////////////////////////////////////////////////////
   // Replace with your code 
-  return f;
+  return vec3(improved_smooth_step(f.x), improved_smooth_step(f.y), improved_smooth_step(f.z));
   /////////////////////////////////////////////////////////////////////////////
 }

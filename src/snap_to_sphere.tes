@@ -28,7 +28,59 @@ void main()
   /////////////////////////////////////////////////////////////////////////////
   // Replace with your code 
   pos_fs_in = interpolate(gl_TessCoord, pos_es_in[0], pos_es_in[1], pos_es_in[2]);
-  gl_Position = pos_fs_in;
+
+  // snap the point to sphere by normalize 
+  //pos_fs_in = normalize(pos_fs_in);
+  pos_fs_in = vec4(normalize(pos_fs_in.xyz), 1);
+  
+  
+  mat4 mod = model(is_moon, animation_seconds);
+  //if moon, then rotate, else return identity matrix
+  
+  //since vec3, before
+  sphere_fs_in = pos_fs_in.xyz;
+
+  // view and model transformed 3D normal -- n' = Hn from slides
+  normal_fs_in = (inverse(transpose(view * mod))*pos_fs_in).xyz;
+
+  
+
+  // shrink the model by 70%
+  mat4 sca = uniform_scale(0.3);
+
+  // shift away from the origin by 2 units in x axis
+  // mat4 shi = translate(vec3(2,0,0)); 
+  
+  // sincne shift will change x and z coordinates
+  float theta = 2 * M_PI * animation_seconds / 4; //since 4 second a loop
+  // imagine x,z form a circle, 2 * (cos theta +sin theta) = 2 
+  
+  vec4 shi = vec4(2 * sin(theta), 0, 2 * cos(theta), 0); 
+  //counter clockwise
+
+
+
+
+  if (is_moon) {    
+    //apply transformation
+    view_pos_fs_in = view*(mod*sca* pos_fs_in + shi);
+    //proj,view,model postion
+    pos_fs_in = proj* view_pos_fs_in;
+  }
+  else {
+    view_pos_fs_in = view*pos_fs_in ;
+    pos_fs_in = proj * view_pos_fs_in ;
+    
+    
+  }
+
+   gl_Position = pos_fs_in;
+
+
+
+
+   
+  
   /////////////////////////////////////////////////////////////////////////////
 }
 

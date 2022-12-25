@@ -6,7 +6,13 @@ mat4 rotate_about_y(float theta)
 {
   /////////////////////////////////////////////////////////////////////////////
   // Replace with your code 
-  return identity();
+  // from video https://www.youtube.com/watch?v=AheaTd_l5Is in 3:18
+  // introduced from CSC320
+  return mat4(
+  cos(theta),0,-sin(theta),0,
+  0,1,0,0,
+  sin(theta),0,cos(theta),0,
+  0,0,0,1);
   /////////////////////////////////////////////////////////////////////////////
 }
 

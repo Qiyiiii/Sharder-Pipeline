@@ -22,7 +22,11 @@ vec3 blinn_phong(
 {
   /////////////////////////////////////////////////////////////////////////////
   // Replace with your code 
-  return vec3(1,1,1);
+  //ambience
+  vec3 rgb = 0.01 * ka ;
+  rgb += kd * max(0, dot(n,l)); //Lambertian shading, normallize it
+  rgb += ks *  pow(max(0.0, dot(n, normalize(v+ l))),p); //specular
+  return rgb;
   /////////////////////////////////////////////////////////////////////////////
 }
 

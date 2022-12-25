@@ -11,6 +11,16 @@ mat4 model(bool is_moon, float time)
 {
   /////////////////////////////////////////////////////////////////////////////
   // Replace with your code 
-  return identity();
+
+
+  if (is_moon) { //if object is moon then rotate
+    float t = 2 * M_PI * time / 4;  //theta value should be 2 pi times seconds divide by period for the position of moon
+    // in the example picture, the period of moon rotation is 4 sec
+    return rotate_about_y(t); //return the rotation matrix
+    
+  }
+  else{ //other objects that needs to be still
+    return identity();
+  }
   /////////////////////////////////////////////////////////////////////////////
 }
